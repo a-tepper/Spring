@@ -43,7 +43,7 @@ public class BookShelfController {
         if (bookService.removeBookById(bookIdToRemove)) {
             return "redirect:/books/shelf";
         } else {
-            return "book_shelf";
+            return "redirect:/books/shelf";
         }
     }
 }

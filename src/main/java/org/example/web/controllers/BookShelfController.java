@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 @RequestMapping(value = "/books")
 public class BookShelfController {
@@ -28,6 +30,17 @@ public class BookShelfController {
         logger.info("got book shelf");
         model.addAttribute("book", new Book());
         model.addAttribute("bookList", bookService.getAllBooks());
+        return "book_shelf";
+    }
+
+    @GetMapping("/filter")
+    public String filter(Model model,
+                         @RequestParam(value = "author") String author,
+                         @RequestParam(value = "title") String title,
+                         @RequestParam(value = "size") Integer size) {
+        List<Book> books = bookService.filterBooks(author, title, size);
+        model.addAttribute("book", new Book());
+        model.addAttribute("bookList", books);
         return "book_shelf";
     }
 

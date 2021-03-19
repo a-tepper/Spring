@@ -6,9 +6,9 @@
     <style>
         #root_container {
             position: absolute;
-            left: 50%;
+            left: 30%;
             top: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-10%, -50%);
         }
 
         #books {
@@ -46,6 +46,26 @@
                 <td>
                     <input type="submit" value="save">
                 </td>
+            </tr>
+        </table>
+    </form>
+
+    <form method="get" th:action="@{/books/filter}">
+        <table>
+            <tr>
+                <td>
+                    <input type="text" placeholder="author" th:name="author">
+                </td>
+                <td>
+                    <input type="text" placeholder="book_title" th:name="title">
+                </td>
+                <td>
+                    <input type="text" placeholder="size (pages)" th:name="size">
+                </td>
+                <td>
+                    <input type="submit" value="filter">
+                </td>
+                <td> <a th:href="@{/books/shelf}"> clear all filters </a> </td>
             </tr>
         </table>
     </form>

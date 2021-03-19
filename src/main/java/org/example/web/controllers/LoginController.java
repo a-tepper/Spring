@@ -29,6 +29,13 @@ public class LoginController {
         return "login_page";
     }
 
+    @GetMapping("/new_user")
+    public String newUser(Model model) {
+        logger.info("GET /login returns login_page.html");
+        model.addAttribute("loginForm", new LoginForm());
+        return "new_user";
+    }
+
     @PostMapping("/auth")
     public String authenticate(LoginForm loginFrom) {
         if (loginService.authenticate(loginFrom)) {
@@ -37,6 +44,23 @@ public class LoginController {
         } else {
             logger.info("login FAIL redirect back to login");
             return "redirect:/login";
+        }
+    }
+
+    @PostMapping("/sign_up")
+    public String signUp(LoginForm loginForm) {
+        if (loginForm.getUsername() == "" || loginForm.getPassword() == ""){
+            logger.info("empty username or password! redirect back to new_user");
+            return "redirect:/login/new_user";
+        }
+        else {
+            if (loginService.signUp(loginForm)) {
+                logger.info("sign-up OK redirect to login");
+                return "redirect:/login";
+            } else {
+                logger.info("sign-up FAIL redirect back to new_user");
+                return "redirect:/login/new_user";
+            }
         }
     }
 }

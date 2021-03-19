@@ -33,8 +33,13 @@ public class BookShelfController {
 
     @PostMapping("/save")
     public String saveBook(Book book) {
-        bookService.saveBook(book);
-        logger.info("current repository size: " + bookService.getAllBooks().size());
+        if (book.getAuthor() != "" || book.getTitle() != "" || book.getSize() != null) {
+            bookService.saveBook(book);
+            logger.info("current repository size: " + bookService.getAllBooks().size());
+        }
+        else {
+            logger.info("attempt to add an empty record!");
+        }
         return "redirect:/books/shelf";
     }
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class BookService {
@@ -75,5 +76,19 @@ public class BookService {
             }
         }
         return true;
+    }
+
+    public List<Book> filterBooks(String author, String title, Integer size) {
+        Stream<Book> books = bookRepo.retreiveAll().stream();
+        if (author != "") {
+            books = books.filter(e -> author.equals(e.getAuthor()));
+        }
+        if (title != "") {
+            books = books.filter(e -> title.equals(e.getTitle()));
+        }
+        if (size != null) {
+            books = books.filter(e -> size.equals(e.getSize()));
+        }
+        return books.collect(Collectors.toList());
     }
 }

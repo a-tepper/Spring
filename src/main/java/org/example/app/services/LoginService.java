@@ -21,10 +21,10 @@ public class LoginService {
 
     private Logger logger = Logger.getLogger(LoginService.class);
 
-    public boolean authenticate(LoginForm loginFrom) {
-        logger.info("try auth with user-form: " + loginFrom);
-        String usr = loginFrom.getUsername();
-        String pwd = loginFrom.getPassword();
+    public boolean authenticate(LoginForm loginForm) {
+        logger.info("try auth with user-form: " + loginForm);
+        String usr = loginForm.getUsername();
+        String pwd = loginForm.getPassword();
         User user = userRepo.retreiveAll().stream().filter(e -> usr.equals(e.getUsr()))
                 .filter(e -> pwd.equals(e.getPwd()))
                 .findFirst().orElse(null);

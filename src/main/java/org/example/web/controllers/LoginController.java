@@ -37,8 +37,8 @@ public class LoginController {
     }
 
     @PostMapping("/auth")
-    public String authenticate(LoginForm loginFrom) {
-        if (loginService.authenticate(loginFrom)) {
+    public String authenticate(LoginForm loginForm) {
+        if (loginService.authenticate(loginForm)) {
             logger.info("login OK redirect to book shelf");
             return "redirect:/books/shelf";
         } else {

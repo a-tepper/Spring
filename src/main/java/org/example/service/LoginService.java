@@ -1,13 +1,11 @@
-package org.example.app.services;
+package org.example.service;
 
 import org.apache.log4j.Logger;
-import org.example.web.dto.LoginForm;
-import org.example.web.dto.User;
+import org.example.repository.ProjectRepository;
+import org.example.dto.LoginForm;
+import org.example.dto.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class LoginService {

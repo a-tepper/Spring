@@ -1,7 +1,7 @@
-package org.example.app.services;
+package org.example.repository;
 
 import org.apache.log4j.Logger;
-import org.example.web.dto.Book;
+import org.example.dto.Book;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

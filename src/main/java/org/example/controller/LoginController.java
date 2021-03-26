@@ -1,8 +1,8 @@
-package org.example.web.controllers;
+package org.example.controller;
 
 import org.apache.log4j.Logger;
-import org.example.app.services.LoginService;
-import org.example.web.dto.LoginForm;
+import org.example.service.LoginService;
+import org.example.dto.LoginForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

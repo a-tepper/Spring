@@ -1,8 +1,8 @@
-package org.example.web.controllers;
+package org.example.controller;
 
 import org.apache.log4j.Logger;
-import org.example.app.services.LoginService;
-import org.example.web.dto.LoginForm;
+import org.example.service.LoginService;
+import org.example.dto.LoginForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,33 +12,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping(value = "/login")
-public class LoginController {
+public class LoginControllerImpl implements LoginController {
 
-    private final Logger logger = Logger.getLogger(LoginController.class);
+    private final Logger logger = Logger.getLogger(LoginControllerImpl.class);
     private final LoginService loginService;
 
     @Autowired
-    public LoginController(LoginService loginService) {
+    public LoginControllerImpl(LoginService loginService) {
         this.loginService = loginService;
     }
 
-    @GetMapping
+    @Override
     public String login(Model model) {
         logger.info("GET /login returns login_page.html");
         model.addAttribute("loginForm", new LoginForm());
         return "login_page";
     }
 
-    @GetMapping("/new_user")
+    @Override
     public String newUser(Model model) {
         logger.info("GET /login returns login_page.html");
         model.addAttribute("loginForm", new LoginForm());
         return "new_user";
     }
 
-    @PostMapping("/auth")
-    public String authenticate(LoginForm loginFrom) {
-        if (loginService.authenticate(loginFrom)) {
+    @Override
+    public String authenticate(LoginForm loginForm) {
+        if (loginService.authenticate(loginForm)) {
             logger.info("login OK redirect to book shelf");
             return "redirect:/books/shelf";
         } else {
@@ -47,7 +47,7 @@ public class LoginController {
         }
     }
 
-    @PostMapping("/sign_up")
+    @Override
     public String signUp(LoginForm loginForm) {
         if (loginForm.getUsername() == "" || loginForm.getPassword() == ""){
             logger.info("empty username or password! redirect back to new_user");

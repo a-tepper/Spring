@@ -1,8 +1,8 @@
-package org.example.web.controllers;
+package org.example.controller;
 
 import org.apache.log4j.Logger;
-import org.example.app.services.BookService;
-import org.example.web.dto.Book;
+import org.example.service.BookService;
+import org.example.dto.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,17 +15,17 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = "/books")
-public class BookShelfController {
+public class BookShelfControllerImpl implements BookShelfController {
 
-    private Logger logger = Logger.getLogger(BookShelfController.class);
+    private Logger logger = Logger.getLogger(BookShelfControllerImpl.class);
     private BookService bookService;
 
     @Autowired
-    public BookShelfController(BookService bookService) {
+    public BookShelfControllerImpl(BookService bookService) {
         this.bookService = bookService;
     }
 
-    @GetMapping("/shelf")
+    @Override
     public String books(Model model) {
         logger.info("got book shelf");
         model.addAttribute("book", new Book());
@@ -33,18 +33,15 @@ public class BookShelfController {
         return "book_shelf";
     }
 
-    @GetMapping("/filter")
-    public String filter(Model model,
-                         @RequestParam(value = "author") String author,
-                         @RequestParam(value = "title") String title,
-                         @RequestParam(value = "size") Integer size) {
+    @Override
+    public String filter(Model model, String author, String title, Integer size) {
         List<Book> books = bookService.filterBooks(author, title, size);
         model.addAttribute("book", new Book());
         model.addAttribute("bookList", books);
         return "book_shelf";
     }
 
-    @PostMapping("/save")
+    @Override
     public String saveBook(Book book) {
         if (book.getAuthor() != "" || book.getTitle() != "" || book.getSize() != null) {
             bookService.saveBook(book);
@@ -56,8 +53,8 @@ public class BookShelfController {
         return "redirect:/books/shelf";
     }
 
-    @PostMapping("/remove")
-    public String removeBook(@RequestParam(value = "bookIdToRemove") Integer bookIdToRemove) {
+    @Override
+    public String removeBook(Integer bookIdToRemove) {
         if (bookService.removeBookById(bookIdToRemove)) {
             return "redirect:/books/shelf";
         } else {
@@ -65,8 +62,8 @@ public class BookShelfController {
         }
     }
 
-    @PostMapping("/remove_by_author")
-    public String removeBooksByAuthor(@RequestParam(value = "author") String author) {
+    @Override
+    public String removeBooksByAuthor(String author) {
         if (bookService.removeBooksByAuthor(author)) {
             return "redirect:/books/shelf";
         }
@@ -75,8 +72,8 @@ public class BookShelfController {
         }
     }
 
-    @PostMapping("/remove_by_title")
-    public String removeBooksByTitle(@RequestParam(value = "title") String title) {
+    @Override
+    public String removeBooksByTitle(String title) {
         if (bookService.removeBooksByTitle(title)) {
             return "redirect:/books/shelf";
         }
@@ -85,8 +82,8 @@ public class BookShelfController {
         }
     }
 
-    @PostMapping("/remove_by_size")
-    public String removeBooksBySize(@RequestParam(value = "size") Integer size) {
+    @Override
+    public String removeBooksBySize(Integer size) {
         if (bookService.removeBooksBySize(size)) {
             return "redirect:/books/shelf";
         }

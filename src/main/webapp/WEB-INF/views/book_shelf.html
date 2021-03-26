@@ -6,9 +6,9 @@
     <style>
         #root_container {
             position: absolute;
-            left: 50%;
+            left: 30%;
             top: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-10%, -50%);
         }
 
         #books {
@@ -50,6 +50,26 @@
         </table>
     </form>
 
+    <form method="get" th:action="@{/books/filter}">
+        <table>
+            <tr>
+                <td>
+                    <input type="text" placeholder="author" th:name="author">
+                </td>
+                <td>
+                    <input type="text" placeholder="book_title" th:name="title">
+                </td>
+                <td>
+                    <input type="text" placeholder="size (pages)" th:name="size">
+                </td>
+                <td>
+                    <input type="submit" value="filter">
+                </td>
+                <td> <a th:href="@{/books/shelf}"> clear all filters </a> </td>
+            </tr>
+        </table>
+    </form>
+
     <form method="post" th:action="@{/books/remove}">
         <table>
             <tr>
@@ -58,6 +78,45 @@
                 </td>
                 <td>
                     <input type="submit" value="remove">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <form method="post" th:action="@{/books/remove_by_author}">
+        <table>
+            <tr>
+                <td>
+                    <input type="text" placeholder="author" th:name="author">
+                </td>
+                <td>
+                    <input type="submit" value="remove all books of this author">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <form method="post" th:action="@{/books/remove_by_title}">
+        <table>
+            <tr>
+                <td>
+                    <input type="text" placeholder="title" th:name="title">
+                </td>
+                <td>
+                    <input type="submit" value="remove all books with this title">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <form method="post" th:action="@{/books/remove_by_size}">
+        <table>
+            <tr>
+                <td>
+                    <input type="text" placeholder="id number" th:name="size">
+                </td>
+                <td>
+                    <input type="submit" value="remove all books with this size">
                 </td>
             </tr>
         </table>

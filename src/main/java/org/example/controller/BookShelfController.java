@@ -1,10 +1,14 @@
 package org.example.controller;
 
 import org.example.dto.Book;
+import org.example.dto.BookIdToRemove;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.validation.Valid;
 
 public interface BookShelfController {
 
@@ -18,10 +22,11 @@ public interface BookShelfController {
                   @RequestParam(value = "size") Integer size);
 
     @PostMapping("/save")
-    String saveBook(Book book);
+    String saveBook(@Valid Book book, BindingResult bindingResult, Model model);
 
     @PostMapping("/remove")
-    String removeBook(@RequestParam(value = "bookIdToRemove") Integer bookIdToRemove);
+    String removeBook(@Valid BookIdToRemove bookIdToRemove,
+                      BindingResult bindingResult, Model model);
 
     @PostMapping("/remove_by_author")
     String removeBooksByAuthor(@RequestParam(value = "author") String author);

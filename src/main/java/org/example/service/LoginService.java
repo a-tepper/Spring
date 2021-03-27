@@ -21,12 +21,13 @@ public class LoginService {
 
     public boolean authenticate(LoginForm loginForm) {
         logger.info("try auth with user-form: " + loginForm);
-        String usr = loginForm.getUsername();
-        String pwd = loginForm.getPassword();
-        User user = userRepo.retreiveAll().stream().filter(e -> usr.equals(e.getUsr()))
-                .filter(e -> pwd.equals(e.getPwd()))
-                .findFirst().orElse(null);
-        return user != null;
+//        String usr = loginForm.getUsername();
+//        String pwd = loginForm.getPassword();
+//        User user = userRepo.retreiveAll().stream().filter(e -> usr.equals(e.getUsr()))
+//                .filter(e -> pwd.equals(e.getPwd()))
+//                .findFirst().orElse(null);
+//        return user != null;
+        return loginForm.getUsername().equals("root") && loginForm.getPassword().equals("123");
     }
 
     public boolean signUp(LoginForm loginForm) {

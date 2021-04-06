@@ -107,4 +107,27 @@ public class BookShelfControllerImpl implements BookShelfController {
             return "redirect:/books/shelf";
         }
     }
+
+    @Override
+    public String uploadFile(@RequestParam(value = "file")MultipartFile file) throws IOException {
+        String name = file.getOriginalFilename();
+        byte[] bytes = file.getBytes();
+
+        //create dir
+        String rootPath = System.getProperty("catalina.home");
+        File dir = new File(rootPath + File.separator + "external_uploads");
+        if (!dir.exists()){
+            dir.mkdirs();
+        }
+
+        //create file
+        File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
+        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+        stream.write(bytes);
+        stream.close();
+
+        logger.info("new file saved at: " + serverFile.getAbsolutePath());
+
+        return "redirect:/books/shelf";
+    }
 }

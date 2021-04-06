@@ -39,4 +39,7 @@ public interface BookShelfController {
 
     @PostMapping("/remove_by_size")
     String removeBooksBySize(@RequestParam(value = "size") Integer size);
+
+    @PostMapping("/upload_file")
+    String uploadFile(@RequestParam(value = "file") MultipartFile file) throws IOException;
 }

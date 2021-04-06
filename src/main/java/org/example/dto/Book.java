@@ -1,9 +1,12 @@
 package org.example.dto;
 
+import javax.validation.constraints.Digits;
+
 public class Book {
     private Integer id;
     private String author;
     private String title;
+    @Digits(integer = 4, fraction = 0)
     private Integer size;
 
     public Integer getId() {

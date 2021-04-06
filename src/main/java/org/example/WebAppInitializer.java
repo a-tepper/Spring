@@ -39,8 +39,8 @@ public class WebAppInitializer implements WebApplicationInitializer {
         dispatcher.addMapping("/");
         logger.info("dispatcher is ready");
 
-//        ServletRegistration.Dynamic servlet = servletContext.addServlet("h2-console", new WebServlet());
-//        servlet.setLoadOnStartup(2);
-//        servlet.addMapping("/console/*");
+        ServletRegistration.Dynamic servlet = servletContext.addServlet("h2-console", new WebServlet());
+        servlet.setLoadOnStartup(2);
+        servlet.addMapping("/console/*");
     }
 }

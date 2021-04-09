@@ -2,6 +2,7 @@ package org.example.controller;
 
 import org.example.dto.Book;
 import org.example.dto.BookIdToRemove;
+import org.example.exceptions.BookShelfUploadException;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,5 +42,5 @@ public interface BookShelfController {
     String removeBooksBySize(@RequestParam(value = "size") Integer size);
 
     @PostMapping("/upload_file")
-    String uploadFile(@RequestParam(value = "file") MultipartFile file) throws IOException;
+    String uploadFile(@RequestParam(value = "file") MultipartFile file) throws IOException, BookShelfUploadException;
 }

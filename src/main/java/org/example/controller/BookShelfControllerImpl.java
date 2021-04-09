@@ -2,12 +2,14 @@ package org.example.controller;
 
 import org.apache.log4j.Logger;
 import org.example.dto.BookIdToRemove;
+import org.example.exceptions.BookShelfUploadException;
 import org.example.service.BookService;
 import org.example.dto.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -109,9 +111,14 @@ public class BookShelfControllerImpl implements BookShelfController {
     }
 
     @Override
-    public String uploadFile(@RequestParam(value = "file")MultipartFile file) throws IOException {
+    public String uploadFile(@RequestParam(value = "file")MultipartFile file) throws IOException, BookShelfUploadException {
         String name = file.getOriginalFilename();
         byte[] bytes = file.getBytes();
+
+        if (bytes.length == 0){
+            logger.info("Attempt to upload an empty file");
+            throw new BookShelfUploadException("Attempt to upload an empty file!");
+        }
 
         //create dir
         String rootPath = System.getProperty("catalina.home");
@@ -129,5 +136,14 @@ public class BookShelfControllerImpl implements BookShelfController {
         logger.info("new file saved at: " + serverFile.getAbsolutePath());
 
         return "redirect:/books/shelf";
+    }
+
+    @ExceptionHandler(BookShelfUploadException.class)
+    public String handleEmptyFile(Model model, BookShelfUploadException exception){
+        model.addAttribute("errorMessage", exception.getMessage());
+        model.addAttribute("book", new Book());
+        model.addAttribute("bookIdToRemove", new BookIdToRemove());
+        model.addAttribute("bookList", bookService.getAllBooks());
+        return "book_shelf";
     }
 }

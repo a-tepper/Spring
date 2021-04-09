@@ -3,12 +3,10 @@ package org.example.controller;
 import org.example.dto.Book;
 import org.example.dto.BookIdToRemove;
 import org.example.exceptions.BookShelfUploadException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -43,4 +41,8 @@ public interface BookShelfController {
 
     @PostMapping("/upload_file")
     String uploadFile(@RequestParam(value = "file") MultipartFile file) throws IOException, BookShelfUploadException;
+
+    @GetMapping(value = "/download_file")
+    ResponseEntity<byte[]> downloadFile() throws IOException, BookShelfUploadException;
+
 }

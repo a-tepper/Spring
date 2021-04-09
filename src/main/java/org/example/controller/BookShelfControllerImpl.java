@@ -1,11 +1,16 @@
 package org.example.controller;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.example.dto.BookIdToRemove;
 import org.example.exceptions.BookShelfUploadException;
 import org.example.service.BookService;
 import org.example.dto.Book;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,10 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 @Controller
@@ -145,5 +147,16 @@ public class BookShelfControllerImpl implements BookShelfController {
         model.addAttribute("bookIdToRemove", new BookIdToRemove());
         model.addAttribute("bookList", bookService.getAllBooks());
         return "book_shelf";
+    }
+
+    @Override
+    public ResponseEntity<byte[]> downloadFile() throws IOException {
+        InputStream in = getClass().getClassLoader().getResourceAsStream("/images/book_icon.png");
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentDisposition(ContentDisposition.builder("attachment").filename("book_icon.png").build());
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .headers(httpHeaders)
+                .body(IOUtils.toByteArray(in));
     }
 }

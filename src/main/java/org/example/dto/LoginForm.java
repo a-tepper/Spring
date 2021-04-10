@@ -1,8 +1,11 @@
 package org.example.dto;
 
-public class LoginForm {
+import javax.validation.constraints.NotBlank;
 
+public class LoginForm {
+    @NotBlank(message = "empty username or password!")
     private String username;
+    @NotBlank(message = "empty username or password!")
     private String password;
 
     public LoginForm(String username, String password) {

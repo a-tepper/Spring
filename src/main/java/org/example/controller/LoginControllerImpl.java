@@ -1,11 +1,14 @@
 package org.example.controller;
 
 import org.apache.log4j.Logger;
+import org.example.exceptions.BookShelfLoginException;
 import org.example.service.LoginService;
 import org.example.dto.LoginForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,13 +40,19 @@ public class LoginControllerImpl implements LoginController {
     }
 
     @Override
-    public String authenticate(LoginForm loginForm) {
-        if (loginService.authenticate(loginForm)) {
-            logger.info("login OK redirect to book shelf");
-            return "redirect:/books/shelf";
+    public String authenticate(LoginForm loginForm, BindingResult bindingResult, Model model)
+            throws BookShelfLoginException {
+        if (bindingResult.hasErrors()) {
+            logger.info("empty username or password!");
+            model.addAttribute("loginForm", new LoginForm());
+            return "login_page";
         } else {
+            if (loginService.authenticate(loginForm)){
+                logger.info("login OK redirect to book shelf");
+                return "redirect:/books/shelf";
+            }
             logger.info("login FAIL redirect back to login");
-            return "redirect:/login";
+            throw new BookShelfLoginException("invalid username or password");
         }
     }
 
@@ -62,5 +71,10 @@ public class LoginControllerImpl implements LoginController {
                 return "redirect:/login/new_user";
             }
         }
+    }
+    @ExceptionHandler(BookShelfLoginException.class)
+    public String handleError(Model model, BookShelfLoginException exception){
+        model.addAttribute("errorMessage", exception.getMessage());
+        return "errors/404";
     }
 }

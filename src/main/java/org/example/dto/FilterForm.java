@@ -1,19 +1,14 @@
 package org.example.dto;
 
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class Book {
+public class FilterForm {
     private Integer id;
-    @NotBlank
-    @Size(min = 1, max = 50, message = "Author is empty or too long")
+    @Size(max = 50, message = "Author is too long")
     private String author;
-    @NotBlank
-    @Size(min = 1, max = 50, message = "Title is empty or too long")
+    @Size(max = 50, message = "Title is too long")
     private String title;
-    @NotNull
     @Digits(integer = 4, fraction = 0)
     private Integer size;
 

@@ -24,14 +24,15 @@
                         <tr>
                             <td>
                                 <input type="text" placeholder="author" th:field="*{author}">
+                                <p th:if="${#fields.hasErrors()}"> Must not be not empty or > 50 chars </p>
                             </td>
                             <td>
                                 <input type="text" placeholder="book_title" th:field="*{title}">
+                                <p th:if="${#fields.hasErrors()}"> Must not be not empty or > 50 chars </p>
                             </td>
                             <td>
                                 <input type="text" placeholder="size (pages)" th:field="*{size}">
                                 <p th:if="${#fields.hasErrors()}"> Must be numeric and up to 4 digits </p>
-                                <!-- fixme (???): doesn't show up even though bindingResult.hasErrors() is true -->
                             </td>
                             <td>
                                 <input type="submit" value="save">
@@ -74,11 +75,14 @@
                     </table>
                 </form>
 
-                <form method="post" th:action="@{/books/remove_by_author}">
+                <form method="post" th:action="@{/books/remove_by_author}" th:object="${authorParam}">
                     <table>
                         <tr>
                             <td>
-                                <input type="text" placeholder="author" th:name="author">
+                                <input type="text" placeholder="author" th:field="*{name}">
+                            </td>
+                            <td th:if="${#fields.hasErrors()}">
+                                <p> Wrong format of author </p>
                             </td>
                             <td>
                                 <input type="submit" value="remove all books of this author">
@@ -87,11 +91,14 @@
                     </table>
                 </form>
 
-                <form method="post" th:action="@{/books/remove_by_title}">
+                <form method="post" th:action="@{/books/remove_by_title}" th:object="${titleParam}">
                     <table>
                         <tr>
                             <td>
-                                <input type="text" placeholder="title" th:name="title">
+                                <input type="text" placeholder="title" th:field="*{text}">
+                            </td>
+                            <td th:if="${#fields.hasErrors()}">
+                                <p> Wrong format of title </p>
                             </td>
                             <td>
                                 <input type="submit" value="remove all books with this title">
@@ -100,11 +107,14 @@
                     </table>
                 </form>
 
-                <form method="post" th:action="@{/books/remove_by_size}">
+                <form method="post" th:action="@{/books/remove_by_size}" th:object="${sizeParam}">
                     <table>
                         <tr>
                             <td>
-                                <input type="text" placeholder="id number" th:name="size">
+                                <input type="text" placeholder="size (pages)" th:field="*{numberOfPages}">
+                            </td>
+                            <td th:if="${#fields.hasErrors()}">
+                                <p> Wrong format of size </p>
                             </td>
                             <td>
                                 <input type="submit" value="remove all books with this size">
@@ -115,17 +125,17 @@
             </div>
             <div class="rounded_container">
                 <h3> Filtering </h3>
-                <form method="get" th:action="@{/books/filter}">
+                <form method="get" th:action="@{/books/filter}" th:object="${filterForm}">
                     <table>
                         <tr>
                             <td>
-                                <input type="text" placeholder="author" th:name="author">
+                                <input type="text" placeholder="author" th:field="*{author}">
                             </td>
                             <td>
-                                <input type="text" placeholder="book_title" th:name="title">
+                                <input type="text" placeholder="book_title" th:field="*{title}">
                             </td>
                             <td>
-                                <input type="text" placeholder="size (pages)" th:name="size">
+                                <input type="text" placeholder="size (pages)" th:field="*{size}">
                             </td>
                             <td>
                                 <input type="submit" value="filter">

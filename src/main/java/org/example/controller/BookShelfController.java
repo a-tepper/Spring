@@ -1,7 +1,6 @@
 package org.example.controller;
 
-import org.example.dto.Book;
-import org.example.dto.BookIdToRemove;
+import org.example.dto.*;
 import org.example.exceptions.BookShelfUploadException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -18,10 +17,7 @@ public interface BookShelfController {
     String books(Model model);
 
     @GetMapping("/filter")
-    String filter(Model model,
-                  @RequestParam(value = "author") String author,
-                  @RequestParam(value = "title") String title,
-                  @RequestParam(value = "size") Integer size);
+    String filter(@Valid FilterForm filterForm, BindingResult bindingResult,Model model);
 
     @PostMapping("/save")
     String saveBook(@Valid Book book, BindingResult bindingResult, Model model);
@@ -31,13 +27,13 @@ public interface BookShelfController {
                       BindingResult bindingResult, Model model);
 
     @PostMapping("/remove_by_author")
-    String removeBooksByAuthor(@RequestParam(value = "author") String author);
+    String removeBooksByAuthor(@Valid AuthorParam authorParam, BindingResult bindingResult, Model model);
 
     @PostMapping("/remove_by_title")
-    String removeBooksByTitle(@RequestParam(value = "title") String title);
+    String removeBooksByTitle(@Valid TitleParam titleParam, BindingResult bindingResult, Model model);
 
     @PostMapping("/remove_by_size")
-    String removeBooksBySize(@RequestParam(value = "size") Integer size);
+    String removeBooksBySize(@Valid SizeParam sizeParam, BindingResult bindingResult, Model model);
 
     @PostMapping("/upload_file")
     String uploadFile(@RequestParam(value = "file") MultipartFile file) throws IOException, BookShelfUploadException;

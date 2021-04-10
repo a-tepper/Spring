@@ -24,6 +24,7 @@
         <br>
         <input class="login_item" type="password" placeholder="password" th:field="*{password}">
         <br>
+        <p th:if="${#fields.hasErrors()}"> Empty username or password! </p>
         <input class="login_item" type="submit" value="login">
     </form>
     <a th:href="@{/login/new_user}"> new user? </a>
